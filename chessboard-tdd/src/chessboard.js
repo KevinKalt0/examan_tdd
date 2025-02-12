@@ -21,6 +21,14 @@ class Chessboard {
         }
     }
 
+    removePiece(row, col) {
+        if (this.isValidPosition(row, col)) {
+            this.board[row][col] = 'O';
+        } else {
+            throw new Error('Invalid position');
+        }
+    }
+
     isValidPosition(row, col) {
         return row >= 0 && row < this.size && col >= 0 && col < this.size;
     }

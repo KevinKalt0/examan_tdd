@@ -21,4 +21,10 @@ describe('Chessboard', () => {
         chessboard.placePiece(0, 0, '#');
         expect(chessboard.getBoard()[0][0]).toBe('#');
     });
+
+    test('should remove a piece from the board', () => {
+        chessboard.placePiece(0, 0, '#');
+        chessboard.removePiece(0, 0);
+        expect(chessboard.getBoard()[0][0]).toBe('O');
+    });
 });
