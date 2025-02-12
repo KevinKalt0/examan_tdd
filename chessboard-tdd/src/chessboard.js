@@ -2,15 +2,12 @@ class Chessboard {
     constructor(size) {
         this.size = size;
         this.board = [];
+        this.solutions = [];
         this.initialize();
     }
 
     initialize() {
         this.board = Array(this.size).fill(null).map(() => Array(this.size).fill('O'));
-    }
-
-    getBoard() {
-        return this.board;
     }
 
     placePiece(row, col, piece) {
@@ -33,19 +30,22 @@ class Chessboard {
         return row >= 0 && row < this.size && col >= 0 && col < this.size;
     }
 
-    isSafeQueen(row, col) {
+    isSafe(row, col) {
+        // Check column
         for (let i = 0; i < row; i++) {
             if (this.board[i][col] === '#') {
                 return false;
             }
         }
 
+        // Check upper left diagonal
         for (let i = row, j = col; i >= 0 && j >= 0; i--, j--) {
             if (this.board[i][j] === '#') {
                 return false;
             }
         }
 
+        // Check upper right diagonal
         for (let i = row, j = col; i >= 0 && j < this.size; i--, j++) {
             if (this.board[i][j] === '#') {
                 return false;
@@ -54,6 +54,26 @@ class Chessboard {
 
         return true;
     }
+
+    getBoard() {
+        return this.board;
+    }
+
+    printBoard() {
+        for (let row of this.board) {
+            console.log(row.join(''));
+        }
+    }
+
+    printSolutions() {
+        for (let solution of this.solutions) {
+            for (let row of solution) {
+                console.log(row.join(''));
+            }
+            console.log('');
+        }
+    }
 }
 
 module.exports = Chessboard;
+
