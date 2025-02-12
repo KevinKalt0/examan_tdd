@@ -1,5 +1,7 @@
 # N-Queens Problem - Advanced Chess Configurations Exam
 
+  npm install
+
 to compile the code : 
   node src/index.js
 
