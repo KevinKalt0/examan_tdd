@@ -10,20 +10,12 @@ class Chessboard {
         this.board = Array(this.size).fill(null).map(() => Array(this.size).fill('O'));
     }
 
-    placePiece(row, col, piece) {
-        if (this.isValidPosition(row, col)) {
-            this.board[row][col] = piece;
-        } else {
-            throw new Error('Invalid position');
-        }
+    placePiece(row, col) {
+        this.board[row][col] = '#';
     }
 
     removePiece(row, col) {
-        if (this.isValidPosition(row, col)) {
-            this.board[row][col] = 'O';
-        } else {
-            throw new Error('Invalid position');
-        }
+        this.board[row][col] = 'O';
     }
 
     isValidPosition(row, col) {
@@ -31,28 +23,35 @@ class Chessboard {
     }
 
     isSafe(row, col) {
-        // Check column
         for (let i = 0; i < row; i++) {
-            if (this.board[i][col] === '#') {
-                return false;
-            }
+            if (this.board[i][col] === '#') return false;
         }
-
-        // Check upper left diagonal
         for (let i = row, j = col; i >= 0 && j >= 0; i--, j--) {
-            if (this.board[i][j] === '#') {
-                return false;
-            }
+            if (this.board[i][j] === '#') return false;
         }
-
-        // Check upper right diagonal
         for (let i = row, j = col; i >= 0 && j < this.size; i--, j++) {
-            if (this.board[i][j] === '#') {
-                return false;
-            }
+            if (this.board[i][j] === '#') return false;
+        }        
+        return true;
+    }
+
+    solveNQueens(row = 0) {
+        if (row === this.size) {
+            this.solutions.push(this.board.map(row => [...row].join('')));
+            return;
         }
 
-        return true;
+        for (let col = 0; col < this.size; col++) {
+            if (this.isSafe(row, col)) {
+                this.placePiece(row, col);
+                this.solveNQueens(row + 1);
+                this.removePiece(row, col);
+            }
+        }
+    }
+
+    getSolutions() {
+        return this.solutions;
     }
 
     getBoard() {
@@ -60,20 +59,15 @@ class Chessboard {
     }
 
     printBoard() {
-        for (let row of this.board) {
-            console.log(row.join(''));
-        }
+        this.board.forEach(row => console.log(row.join('')));
     }
 
     printSolutions() {
-        for (let solution of this.solutions) {
-            for (let row of solution) {
-                console.log(row.join(''));
-            }
-            console.log('');
-        }
+        this.solutions.forEach(solution => {
+            console.log(solution.join('\n') + '\n');
+        });
     }
+    
 }
 
 module.exports = Chessboard;
-
