@@ -1,5 +1,11 @@
 # N-Queens Problem - Advanced Chess Configurations Exam
 
+to compile the code : 
+  node src/index.js
+
+to compile tests : 
+  npx jest
+
 ## Part 1: Classic N-Queens Problem
 
 The N-Queens puzzle requires placing N queens on an N×N chessboard so that no two queens can attack each other. A queen can attack pieces on the same row, column, or diagonal.
