@@ -32,6 +32,28 @@ class Chessboard {
     isValidPosition(row, col) {
         return row >= 0 && row < this.size && col >= 0 && col < this.size;
     }
+
+    isSafeQueen(row, col) {
+        for (let i = 0; i < row; i++) {
+            if (this.board[i][col] === '#') {
+                return false;
+            }
+        }
+
+        for (let i = row, j = col; i >= 0 && j >= 0; i--, j--) {
+            if (this.board[i][j] === '#') {
+                return false;
+            }
+        }
+
+        for (let i = row, j = col; i >= 0 && j < this.size; i--, j++) {
+            if (this.board[i][j] === '#') {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
 
 module.exports = Chessboard;
