@@ -1,11 +1,13 @@
 class Chessboard {
-    constructor() {
+    constructor(size) {
+        this.size = size;
         this.board = [];
+        this.solutions = [];
         this.initialize();
     }
 
     initialize() {
-        this.board = Array(4).fill(null).map(() => Array(4).fill(null));
+        this.board = Array(this.size).fill(null).map(() => Array(this.size).fill(null));
     }
 
     placePiece(row, col, piece) {
@@ -25,7 +27,51 @@ class Chessboard {
     }
 
     isValidPosition(row, col) {
-        return row >= 0 && row < 4 && col >= 0 && col < 4;
+        return row >= 0 && row < this.size && col >= 0 && col < this.size;
+    }
+
+    isSafeQueen(row, col) {
+        // Check column
+        for (let i = 0; i < row; i++) {
+            if (this.board[i][col] === 'Q') {
+                return false;
+            }
+        }
+
+        // Check upper left diagonal
+        for (let i = row, j = col; i >= 0 && j >= 0; i--, j--) {
+            if (this.board[i][j] === 'Q') {
+                return false;
+            }
+        }
+
+        // Check upper right diagonal
+        for (let i = row, j = col; i >= 0 && j < this.size; i--, j++) {
+            if (this.board[i][j] === 'Q') {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    solveNQueens(row = 0) {
+        if (row === this.size) {
+            this.solutions.push(this.board.map(r => r.slice()));
+            return;
+        }
+
+        for (let col = 0; col < this.size; col++) {
+            if (this.isSafe(row, col)) {
+                this.placePiece(row, col, 'Q');
+                this.solveNQueens(row + 1);
+                this.removePiece(row, col);
+            }
+        }
+    }
+
+    getSolutions() {
+        return this.solutions;
     }
 
     getBoard() {
@@ -35,6 +81,15 @@ class Chessboard {
     printBoard() {
         for (let row of this.board) {
             console.log(row.map(cell => cell === null ? 'O' : cell).join(''));
+        }
+    }
+
+    printSolutions() {
+        for (let solution of this.solutions) {
+            for (let row of solution) {
+                console.log(row.map(cell => cell === null ? 'O' : cell).join(''));
+            }
+            console.log('');
         }
     }
 }
