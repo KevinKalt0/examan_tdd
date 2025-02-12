@@ -12,6 +12,18 @@ class Chessboard {
     getBoard() {
         return this.board;
     }
+
+    placePiece(row, col, piece) {
+        if (this.isValidPosition(row, col)) {
+            this.board[row][col] = piece;
+        } else {
+            throw new Error('Invalid position');
+        }
+    }
+
+    isValidPosition(row, col) {
+        return row >= 0 && row < this.size && col >= 0 && col < this.size;
+    }
 }
 
 module.exports = Chessboard;
